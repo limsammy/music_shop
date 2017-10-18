@@ -37,6 +37,7 @@ gem 'foundation-icons-sass-rails'
 gem 'rails-settings-cached', '~> 0.4.0'
 gem 'react-rails'
 gem 'aws-sdk'
+gem 'activemerchant'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
