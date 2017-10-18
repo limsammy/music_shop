@@ -1,4 +1,6 @@
 class Admin::ItemsController < Admin::BaseController
+  before_action :set_item, only: [:edit, :update, :destroy]
+
   def index
     @items = Item.all
   end
@@ -19,11 +21,9 @@ class Admin::ItemsController < Admin::BaseController
   end
 
   def edit
-    @item = Item.find(params[:id])
   end
 
   def update
-    @item = Item.find(params[:id])
     if @item.update(item_params)
       flash[:success] = "#{@item.title} has been updated."
       redirect_to admin_items_path
@@ -34,16 +34,20 @@ class Admin::ItemsController < Admin::BaseController
   end
 
   def destroy
-    @product.destroy
+    @item.destroy
     respond_to do |format|
-      format.html { redirect_to products_url, notice: 'Product was successfully destroyed.' }
+      format.html { redirect_to admin_items_path, notice: 'Product was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
 
   private
+    # Use callbacks to share common setup or constraints between actions.
+    def set_item
+      @item = Item.find(params[:id])
+    end
 
-  def item_params
-    params.require(:item).permit(:title, :description, :price, :category_id, :image, :status, :audio)
-  end
+    def item_params
+      params.require(:item).permit(:title, :description, :price, :category_id, :image, :status, :audio)
+    end
 end
