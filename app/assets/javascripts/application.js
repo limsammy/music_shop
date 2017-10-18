@@ -19,4 +19,3 @@
 //= require Chart.min
 //= require Chart.bundle
 //= require chartkick
-$(function(){ $(document).foundation(); });

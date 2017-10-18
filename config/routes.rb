@@ -1,5 +1,11 @@
 Rails.application.routes.draw do
 
+  get 'payments/index'
+
+  get 'payments/new'
+
+  get 'payments/create'
+
   root to: 'welcome#index'
 
   resources :items, only: [:index, :show]
@@ -27,6 +33,8 @@ Rails.application.routes.draw do
 
   get '/sync_repo/:id', to: 'items#sync_repo', as: :sync_repo
   get '/stream/:id', to: 'items#stream', as: :stream
+
+  resources :payments, only: [:index, :new, :create]
 
   resources :categories, path: '/', only: [:show]
 end
