@@ -41,9 +41,54 @@
     <div class="cart_checkout center-text">
       <% if current_user %>
       <%= link_to "Checkout", orders_path, method: :post, class: "btn btn-default" %>
+       <div id="paypal-button-container"></div>
       <% else %>
       <%= link_to "Login or Create Account to Checkout", login_path, class: "btn btn-default" %>
       <% end %>
     </div>
   </div>
 </div>
+
+<script>
+  paypal.Button.render({
+
+      env: 'sandbox', // sandbox | production
+
+      // PayPal Client IDs - replace with your own
+      // Create a PayPal app: https://developer.paypal.com/developer/applications/create
+      client: {
+          sandbox:    '<%= ENV["Paypal_Signature"] %>',
+          production: '<insert production client id>'
+      },
+
+      // Show the buyer a 'Pay Now' button in the checkout flow
+      commit: true,
+
+      // payment() is called when the button is clicked
+      payment: function(data, actions) {
+
+          // Make a call to the REST api to create the payment
+          return actions.payment.create({
+              payment: {
+                  transactions: [
+                      {
+                          amount: { total: '<%= @cart.total %>', currency: 'USD' }
+                      }
+                  ]
+              }
+          });
+      },
+
+      // onAuthorize() is called when the buyer approves the payment
+      onAuthorize: function(data, actions) {
+
+          // Make a call to the REST api to execute the payment
+          return actions.payment.execute().then(function() {
+              window.alert('Payment Complete!');
+          });
+      }
+
+  }, '#paypal-button-container');
+
+</script>
+</body>
