@@ -19,10 +19,14 @@ class ItemsController < ApplicationController
   end
 
   def stream
-    item = Item.find(params[:id])
-    if item
-      send_file item.path
+    audio = Audio.find(params[:id])
+    if audio
+      send_file audio.path
     end
+    # item = Item.find(params[:id])
+    # if item
+    #   send_file item.audio.path
+    # end
   end
 
 	def index
