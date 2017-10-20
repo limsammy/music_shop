@@ -21646,132 +21646,6 @@ module.exports = function(reqctx) {
 /***/ })
 /******/ ]);
 });
-var Audio = React.createClass({
-  displayName: 'Audio',
-
-  getInitialState: function () {
-    return {
-      player: false
-    };
-  },
-
-  componentDidMount: function () {
-    var _this = this;
-
-    var $player = $('#' + this.props.id);
-
-    /**
-      * Have to add media event listeners here.
-      *
-    */
-    $player.on('play', function (e) {
-      e.preventDefault();
-      _this.playLocation();
-    });
-
-    $player.on('pause', function (e) {
-      e.preventDefault();
-      _this.pause();
-    });
-
-    $player.on('ended', function (e) {
-      e.preventDefault();
-      _this.ended();
-    });
-
-    $(document).on('keydown', function (e) {
-      // Move currentTime forward and backward via arrow keys and play/pause via spacebar.
-      if (e.keyCode == 39) {
-        _this.state.player.currentTime += 1;
-      } else if (e.keyCode == 37) {
-        _this.state.player.currentTime -= 1;
-      } else if (e.keyCode == 32 && _this.state.player.paused == true) {
-        e.preventDefault();
-        _this.state.player.play();
-      } else if (e.keyCode == 32 && _this.state.player.paused == false) {
-        e.preventDefault();
-        _this.state.player.pause();
-      }
-    });
-
-    $player.on('wheel', function (e) {
-      e.preventDefault();
-      e.stopPropagation();
-      // $player.focus();
-      if (e.originalEvent.wheelDelta > 0) {
-        _this.state.player.currentTime += 1;
-      } else {
-        _this.state.player.currentTime -= 1;
-      }
-    });
-  },
-
-  componentWillUnmount: function () {
-    var $player = $('#' + this.props.id);
-    $player.off('play');
-    $player.off('pause');
-    $(document).off('keydown');
-    $player.off('wheel');
-  },
-
-  getPlaybackTime: function (time) {
-    var hours = Math.floor(time / 3600);
-    var minutes = Math.floor(time / 60);
-    if (minutes > 59) {
-      minutes = Math.floor(time / 60) - 60;
-    }
-
-    var seconds = Math.round(time - minutes * 60);
-    if (seconds > 3599) {
-      seconds = Math.round(time - minutes * 60) - 3600;
-    }
-
-    return time;
-  },
-
-  playLocation: function () {
-    this.setState({ player: $('#' + this.props.id)[0] }, function () {
-      var _this2 = this;
-
-      var playbackTime = this.getPlaybackTime(this.state.player.currentTime);
-
-      $.get('/audios/' + this.props.id + '.json').then(function (data) {
-        _this2.state.player.currentTime = data.playback_time;
-        _this2.state.player.play();
-      });
-    });
-  },
-
-  pause: function () {
-    var playbackTime = this.getPlaybackTime(this.state.player.currentTime);
-
-    // Do the putting.
-    $.ajax({
-      url: '/audios/' + this.props.id + '.json',
-      method: 'put',
-      data: 'audio[playback_time]=' + playbackTime
-    });
-  },
-
-  ended: function () {
-    // Set playback_time to 0.
-    $.ajax({
-      url: '/audios/' + this.props.id + '.json',
-      method: 'put',
-      data: 'audio[playback_time]=' + 0
-    });
-
-    $(document).trigger('playback-ended');
-  },
-
-  render: function () {
-    return React.createElement(
-      'audio',
-      { id: this.props.id, controls: true, className: 'player', preload: 'false' },
-      React.createElement('source', { src: this.props.audio.path.indexOf('http') ? '/stream/' + this.props.id : this.props.audio.path })
-    );
-  }
-});
 var Item = React.createClass({
   displayName: 'Item',
 
@@ -21892,7 +21766,7 @@ var Item = React.createClass({
     return React.createElement(
       'audio',
       { id: this.props.id, controls: true, className: 'player', preload: 'false' },
-      React.createElement('source', { src: this.props.audio.indexOf('http') ? this.props.audio : '/stream/' + this.props.id })
+      React.createElement('source', { src: this.props.audio })
     );
   }
 });
