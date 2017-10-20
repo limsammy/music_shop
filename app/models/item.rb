@@ -1,5 +1,5 @@
 class Item < ApplicationRecord
-  before_validation :smart_add_url_protocol
+  after_save :smart_add_url_protocol
 
   def smart_add_url_protocol
     unless self.audio.url[/\Ahttp:\/\//] || self.url[/\Ahttps:\/\//]
