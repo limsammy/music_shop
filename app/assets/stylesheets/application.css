@@ -75,6 +75,9 @@ body {
   font-size: 40px;
   letter-spacing: -3px;
 }
+.navbar-header {
+  margin-bottom: 20px;
+}
 body > header > nav > div > div.navbar-header > a > img {
   margin-top: -10px;
 }
