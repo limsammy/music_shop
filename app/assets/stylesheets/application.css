@@ -127,6 +127,12 @@ body > header > nav > div > div.navbar-header > a > img {
 .carousel-image {
   width: 100%;
 }
+#myCarousel > div > div.item.active > div > h1 {
+  color: white;
+}
+#myCarousel > div > div.item.active > div > h3 {
+  color: white;
+}
 .graph-title {
   margin-left: 10px;
 }
