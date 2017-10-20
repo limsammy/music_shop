@@ -81,6 +81,11 @@ body {
 body > header > nav > div > div.navbar-header > a > img {
   margin-top: -10px;
 }
+
+.nav.navbar-nav {
+  margin-top: 15px;
+}
+
 .item-card-img {
   width: 250px;
   height: 250px;
