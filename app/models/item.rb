@@ -1,4 +1,12 @@
 class Item < ApplicationRecord
+  before_validation :smart_add_url_protocol
+
+  def smart_add_url_protocol
+    unless self.audio.url[/\Ahttp:\/\//] || self.url[/\Ahttps:\/\//]
+      self.audio.url = "http://#{self.audio.url}"
+    end
+  end
+
   validates :title, presence: true, uniqueness: true
   validates :description, :price, :category_id, presence: true
 
