@@ -112,7 +112,7 @@ var Item = React.createClass({
   },
 
   render: function() {
-    return <audio id={this.props.id} controls className="player" preload="false">
+    return <audio id={this.props.id} controls className="player" preload="false" controlsList="nodownload">
       <source src={this.props.audio} />
     </audio>
   }
