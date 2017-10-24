@@ -50,6 +50,7 @@
 </div>
 
 <script>
+
   paypal.Button.render({
 
       env: 'sandbox', // sandbox | production
@@ -85,6 +86,8 @@
           // Make a call to the REST api to execute the payment
           return actions.payment.execute().then(function() {
               window.alert('Payment Complete!');
+              $.post("orders");
+              window.location.href = "orders";
           });
       }
 
